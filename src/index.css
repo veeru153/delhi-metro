@@ -658,6 +658,18 @@ video {
   margin-top: 0.25rem;
 }
 
+.ml-5 {
+  margin-left: 1.25rem;
+}
+
+.ml-10 {
+  margin-left: 2.5rem;
+}
+
+.ml-9 {
+  margin-left: 2.25rem;
+}
+
 .block {
   display: block;
 }
@@ -983,6 +995,11 @@ video {
   border-top-right-radius: 1rem;
 }
 
+.rounded-b-3xl {
+  border-bottom-right-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+}
+
 .bg-gray-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
@@ -1146,6 +1163,14 @@ video {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .text-gray-200 {

@@ -7,11 +7,13 @@ import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutl
 import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
+import SwapHorizOutlinedIcon from '@mui/icons-material/SwapHorizOutlined';
 import { useAtom, useAtomValue } from "jotai";
 import { filterAtom, fromStationAtom, toStationAtom } from "../common/atoms";
 import StationPickerInput from "../components/StationPickerInput";
 import FilterButton from "../components/FilterButton";
 import { RouteDetails, RouteSegment, RouteSegmentStation } from "../common/types/StationRoute";
+import getColorFromLineNo from "../common/getColorFromLine";
 
 
 export default function RouteInfo() {
@@ -74,40 +76,61 @@ export default function RouteInfo() {
 }
 
 function JourneyDetails({ data }: { data: RouteDetails }) {
+    const segments = data.route;
+
+    function getTimeString() {
+        const [h, m, s] = data.total_time.split(":").map(i => parseInt(i));
+        const minFromSec = Math.round(s / 60);
+        const minFromHours = h * 60;
+        return m + minFromSec + minFromHours;
+    }
+
     return <>
-        <div className="flex flex-col flex-1 w-full px-3">
+        <div className="flex flex-col flex-1 w-full px-3 gap-y-3">
             <div className="flex flex-row justify-between text-xl px-2">
                 <p>{data.stations} Stops</p>
                 <p>₹ {data.fare}</p>
-                <p>44 Mins</p>
+                <p>{getTimeString()} Mins</p>
             </div>
             <div className="flex flex-col gap-y-4">
-                {data.route.map((segment, index) => <JourneySegment segment={segment} hasNext={index !== data.route.length - 1} />)}
+                {segments.map((segment, index) => (
+                    <JourneySegment
+                        segment={segment}
+                        nextSegment={index !== segments.length - 1 ? segments[index + 1] : null}
+                    />
+                ))}
             </div>
-            {/* Station List */}
         </div>
     </>
 }
 
-function JourneySegment({ segment, hasNext = false }: JourneySegmentProps) {
+function JourneySegment({ segment, nextSegment }: JourneySegmentProps) {
     const stations = segment.path
     const startStation = stations[0];
     const endStation = stations[stations.length - 1];
-
     const intermediateStations = stations.slice(1, -1);
-
+    const lineColor = getColorFromLineNo(segment.line_no);
+    const nextLineColor = nextSegment != null ? getColorFromLineNo(nextSegment.line_no) : "#000";
 
     return <>
         <div className="flex flex-col bg-gray-200 rounded-2xl py-3 gap-y-0.5 text-lg">
-            <TerminalStation station={startStation} />
-            {intermediateStations.length > 0 ? <IntermediateStations stations={intermediateStations} /> : null}
-            <TerminalStation station={endStation} end />
+            <TerminalStation station={startStation} color={lineColor} />
+            {intermediateStations.length > 0 ? <IntermediateStations stations={intermediateStations} color={lineColor} /> : null}
+            <TerminalStation station={endStation} color={lineColor} end />
         </div>
-        {hasNext && <div>Interchange</div>}
+        {
+            nextSegment != null
+                ? <div className="flex flex-row justify-center items-center gap-x-4 text-lg font-semibold">
+                    <p style={{ color: lineColor }}>{segment.line}</p>
+                    <SwapHorizOutlinedIcon />
+                    <p style={{ color: nextLineColor }}>{nextSegment.line}</p>
+                </div>
+                : null
+        }
     </>
 }
 
-function TerminalStation({ station, end = false }: { station: RouteSegmentStation, end?: boolean }) {
+function TerminalStation({ station, color, end = false }: { station: RouteSegmentStation, color: string, end?: boolean }) {
     const terminalRoundingClass = end ? "rounded-b-2xl" : "rounded-t-2xl";
     const terminalAlignmentClass = end ? "justify-start" : "justify-end";
     const lineClasses = ["flex flex-col w-4 ml-4 mr-2", terminalAlignmentClass].join(" ");
@@ -115,27 +138,30 @@ function TerminalStation({ station, end = false }: { station: RouteSegmentStatio
     return <>
         <div className="flex flex-row">
             <div className={lineClasses}>
-                <div className={`w-2 h-4/5 mx-auto bg-red-300 ${terminalRoundingClass}`}></div>
+                <div
+                    className={`w-2 h-4/5 mx-auto ${terminalRoundingClass}`}
+                    style={{ backgroundColor: color }}
+                />
             </div>
             <div className="py-1">{station.name}</div>
         </div>
     </>
 }
 
-function IntermediateStations({ stations }: { stations: RouteSegmentStation[] }) {
+function IntermediateStations({ stations, color }: { stations: RouteSegmentStation[], color: string }) {
     const [showIntermediate, setShowIntermediate] = useState(false);
 
     return <>
         <div className="flex flex-row">
             <div className="w-4 ml-4 mr-2">
-                <div className="w-2 h-full mx-auto bg-red-300"></div>
+                <div className="w-2 h-full mx-auto" style={{ backgroundColor: color }} />
             </div>
             <div className="flex flex-col text-left">
                 <div className="flex flex-row items-center gap-x-0.5" onClick={() => setShowIntermediate(!showIntermediate)}>
                     {showIntermediate ? <ExpandLessOutlinedIcon className="text-gray-800" /> : <ExpandMoreOutlinedIcon className="text-gray-800" />}
                     {showIntermediate ? "Hide" : "Show"} {stations.length} Stations
                 </div>
-                <div className="flex flex-col mt-1 mx-2.5 gap-y-2.5">
+                <div className="flex flex-col mt-1 ml-8 mr-2 gap-y-2.5">
                     {showIntermediate && stations.map(station => <div>{station.name}</div>)}
                 </div>
             </div>
@@ -162,5 +188,5 @@ function InvalidParameters() {
 
 interface JourneySegmentProps {
     segment: RouteSegment;
-    hasNext?: boolean;
+    nextSegment?: RouteSegment | null;
 }
