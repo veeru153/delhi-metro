@@ -14,9 +14,11 @@ import StationPickerInput from "../components/StationPickerInput";
 import FilterButton from "../components/FilterButton";
 import { RouteDetails, RouteSegment, RouteSegmentStation } from "../common/types/StationRoute";
 import getColorFromLineNo from "../common/getColorFromLine";
+import { useNavigate } from "react-router-dom";
 
 
 export default function RouteInfo() {
+    const navigate = useNavigate();
     const from = useAtomValue(fromStationAtom);
     const to = useAtomValue(toStationAtom);
     const [filter, setFilter] = useAtom(filterAtom);
@@ -45,9 +47,16 @@ export default function RouteInfo() {
 
     return <>
         <div className="flex flex-col h-screen gap-y-3">
-            <div className="flex flex-row items-center p-4 pb-1 gap-2 cursor-pointer">
-                <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
-                <p className="text-xl">Journey</p>
+            <div className="flex w-full">
+                <div className="flex flex-row items-center p-4 gap-2">
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => navigate("/")}
+                    >
+                        <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
+                    </div>
+                    <p className="text-xl">Journey</p>
+                </div>
             </div>
             <div className="flex flex-col justify-center items-center">
                 <div className="flex flex-col w-full gap-y-3 px-3">
@@ -157,7 +166,7 @@ function IntermediateStations({ stations, color }: { stations: RouteSegmentStati
                 <div className="w-2 h-full mx-auto" style={{ backgroundColor: color }} />
             </div>
             <div className="flex flex-col text-left">
-                <div className="flex flex-row items-center gap-x-0.5" onClick={() => setShowIntermediate(!showIntermediate)}>
+                <div className="flex flex-row items-center gap-x-0.5 cursor-pointer" onClick={() => setShowIntermediate(!showIntermediate)}>
                     {showIntermediate ? <ExpandLessOutlinedIcon className="text-gray-800" /> : <ExpandMoreOutlinedIcon className="text-gray-800" />}
                     {showIntermediate ? "Hide" : "Show"} {stations.length} Stations
                 </div>
@@ -170,10 +179,15 @@ function IntermediateStations({ stations, color }: { stations: RouteSegmentStati
 }
 
 function InvalidParameters() {
+    const navigate = useNavigate();
+
     return <>
         <div className="flex flex-col h-screen">
             <div className="flex flex-row w-full">
-                <div className="flex flex-row items-center p-4 gap-2 cursor-pointer">
+                <div
+                    className="flex flex-row items-center p-4 gap-2 cursor-pointer"
+                    onClick={() => navigate("/")}
+                >
                     <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
                     <p className="text-xl">Back</p>
                 </div>

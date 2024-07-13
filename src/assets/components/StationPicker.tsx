@@ -52,8 +52,10 @@ export default function StationPicker({ stationAtom }: StationPickerProps) {
 
     return <>
         <div className={classes}>
-            <div className="flex flex-row justify-center items-center w-full mx-auto gap-x-4">
-                <ArrowBackIosNewOutlinedIcon className="text-gray-800" onClick={resetPicker} />
+            <div className="flex flex-row justify-center items-center w-full mx-auto gap-x-2">
+                <div className="flex flex-row justify-center items-center cursor-pointer pr-2">
+                    <ArrowBackIosNewOutlinedIcon className="text-gray-800" onClick={resetPicker} />
+                </div>
                 <div className="flex flex-row bg-gray-200 w-full px-3 py-3 gap-x-3 rounded-xl">
                     <SearchOutlinedIcon className="text-gray-700" />
                     <input
@@ -71,7 +73,7 @@ export default function StationPicker({ stationAtom }: StationPickerProps) {
 
 function StartTypingToSearch() {
     return <>
-        <div className="flex flex-col flex-1 justify-center items-center gap-2">
+        <div className="flex flex-col flex-1 justify-center items-center gap-2 text-center">
             <SearchOutlinedIcon className="!w-44 !h-44 text-gray-400" />
             <p className="text-3xl text-gray-400">Start Typing to Search</p>
         </div>
