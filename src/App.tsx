@@ -1,10 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Home from './assets/containers/Home'
-import RouteInfo from './assets/containers/RouteInfo';
+import Home from './containers/Home'
+import RouteInfo from './containers/RouteInfo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
-import { searchingStationAtom } from './assets/common/atoms';
-import StationPicker from './assets/components/StationPicker';
+import { searchingStationAtom } from './common/atoms';
+import StationPicker from './components/StationPicker';
+import Map from './containers/Map';
+
+/// <reference types="vite-plugin-svgr/client" />
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +28,7 @@ function App() {
         <div className="text-center">
           <Routes>
             <Route path="/route" element={<RouteInfo />} />
+            <Route path="/map" element={<Map />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </div>

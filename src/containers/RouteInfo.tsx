@@ -8,12 +8,13 @@ import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDo
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import SwapHorizOutlinedIcon from '@mui/icons-material/SwapHorizOutlined';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { useAtom, useAtomValue } from "jotai";
 import { filterAtom, fromStationAtom, toStationAtom } from "../common/atoms";
 import StationPickerInput from "../components/StationPickerInput";
 import FilterButton from "../components/FilterButton";
 import { RouteDetails, RouteSegment, RouteSegmentStation } from "../common/types/StationRoute";
-import getColorFromLineNo from "../common/getColorFromLine";
+import getColorFromLineNo from "../common/util/getColorFromLine";
 import { useNavigate } from "react-router-dom";
 
 
@@ -47,8 +48,8 @@ export default function RouteInfo() {
 
     return <>
         <div className="flex flex-col h-screen gap-y-3">
-            <div className="flex w-full">
-                <div className="flex flex-row items-center p-4 gap-2">
+            <div className="flex flex-row w-full">
+                <div className="flex flex-row flex-1 items-center p-4 gap-2">
                     <div
                         className="cursor-pointer"
                         onClick={() => navigate("/")}
@@ -56,6 +57,12 @@ export default function RouteInfo() {
                         <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
                     </div>
                     <p className="text-xl">Journey</p>
+                </div>
+                <div
+                    className="flex flex-row justify-center items-center p-4 cursor-pointer"
+                    onClick={() => navigate("/map")}
+                >
+                    <MapOutlinedIcon className="!w-7 !h-7 text-gray-800" />
                 </div>
             </div>
             <div className="flex flex-col justify-center items-center">
