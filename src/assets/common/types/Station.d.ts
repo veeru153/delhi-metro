@@ -5,7 +5,7 @@ export interface Station {
     station_facility: StationFacility[]
 }
 
-interface StationFacility {
+export interface StationFacility {
     name: string;
     class_name: string;
     image: {
