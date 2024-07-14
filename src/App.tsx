@@ -23,7 +23,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename='/delhi-metro'>
         <div className="text-center max-w-[640px] mx-auto">
           <StationPicker stationAtom={searchingStation} />
           <Routes>

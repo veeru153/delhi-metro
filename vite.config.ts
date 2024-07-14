@@ -5,6 +5,7 @@ import { VitePWA } from "vite-plugin-pwa"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/delhi-metro/",
   plugins: [
     react(),
     svgr({
@@ -36,8 +37,13 @@ export default defineConfig({
       },
       manifest: {
         name: "Delhi Metro",
-        start_url: "/",
+        short_name: "Delhi Metro",
+        scope: "/delhi-metro/",
+        start_url: "/delhi-metro/",
         theme_color: "#c0282c",
+        background_color: "transparent",
+        display: "standalone",
+        prefer_related_applications: false,
         icons: [
           {
             src: '64.png',

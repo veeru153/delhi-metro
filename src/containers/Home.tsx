@@ -12,15 +12,15 @@ export default function Home() {
             <JourneyPlanner />
             <div className="flex flex-row w-4/5 mx-auto gap-x-4">
                 <a
-                    className="flex flex-row flex-1 justify-center items-center bg-red-300 gap-x-2 py-4 rounded-xl"
+                    className="flex flex-row flex-1 justify-center items-center text-gray-800 bg-red-300 gap-x-2 py-4 rounded-xl"
                     href="https://www.delhimetrorail.com/faq"
                     target="_blank"
                 >
-                    <HelpOutlineOutlinedIcon className="!w-5 !h-5 text-gray-800" />
+                    <HelpOutlineOutlinedIcon className="!w-5 !h-5" />
                     <div className="text-lg">FAQs</div>
                 </a>
-                <Link className="flex flex-row flex-1 justify-center items-center bg-red-300 gap-x-2 py-4 rounded-xl" to="/map">
-                    <MapOutlinedIcon className="!w-5 !h- text-gray-800" />
+                <Link className="flex flex-row flex-1 justify-center items-center text-gray-800 bg-red-300 gap-x-2 py-4 rounded-xl" to="/map">
+                    <MapOutlinedIcon className="!w-5 !h-5" />
                     <div className="text-lg">Map</div>
                 </Link>
             </div>
