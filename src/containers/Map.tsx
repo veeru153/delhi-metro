@@ -5,13 +5,16 @@ import MapSvgImg from "../assets/map.svg?react";
 import MapSvg from "../components/MapSvg";
 import { useLayoutEffect, useRef, useState } from "react";
 
+const ORIGINAL_X = -366.2540008544922;
+const ORIGINAL_Y = -11.287689208984375;
+const ORIGINAL_SCALE = 0.7
 
 export default function Map() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const [x, setX] = useState(-366.2540008544922);
-    const [y, setY] = useState(-11.287689208984375);
-    const [scale, setScale] = useState(0.7);
+    const [x, setX] = useState(ORIGINAL_X);
+    const [y, setY] = useState(ORIGINAL_Y);
+    const [scale, setScale] = useState(ORIGINAL_SCALE);
 
     const routePath = searchParams.get("route");
     const routePathCodes: string[] = [];
@@ -76,6 +79,10 @@ export default function Map() {
     function onWheelMove(event: WheelEvent) {
         const scaleDiff = event.deltaY / 1000;
         setScale(Math.max(0.7, Math.min(scale - scaleDiff, 2.5)));
+        if (scale === ORIGINAL_SCALE) {
+            setX(ORIGINAL_X);
+            setY(ORIGINAL_Y);
+        }
     }
 
     useLayoutEffect(() => {
@@ -90,27 +97,27 @@ export default function Map() {
         ref.current?.addEventListener('touchstart', onPointerDown); // Finger is touching the screen
         ref.current?.addEventListener('touchend', onPointerUp); // Finger is no longer touching the screen
         ref.current?.addEventListener('touchmove', onPointerMove); // Finger is moving
-
-        // Map Color for Paths
-        if (routePath != null && routePath.length > 0) {
-            const lineSelector = `g.lines > line:not(${routePathCodes.map(code => "#" + code).join(",")})`;
-            const lines = svgRef.current?.querySelectorAll(lineSelector);
-            lines?.forEach(line => line.setAttribute("stroke", "#eeeeee"));
-
-            const stationsGroup = svgRef.current?.querySelector("g.stations");
-            const stationSelector = `g:not(${routeStationCodes.map(code => "#" + code).join(",")})`;
-            const stations = stationsGroup?.querySelectorAll(stationSelector);
-            stations?.forEach(station => (station.firstChild as Element).setAttribute("stroke", "#eeeeee"));
-
-            const transferStationsGroup = svgRef.current?.querySelector("g.transferStations");
-            const transferStations = transferStationsGroup?.querySelectorAll(stationSelector);
-            transferStations?.forEach(station => (station.firstChild as Element).setAttribute("stroke", "#eeeeee"));
-
-            const interchangesGroup = svgRef.current?.querySelector("g.interchanges");
-            const interchanges = interchangesGroup?.querySelectorAll(stationSelector);
-            interchanges?.forEach(station => (station.firstChild as Element).setAttribute("stroke", "#eeeeee"));
-        }
     })
+
+    useLayoutEffect(() => {
+        console.log("Repainting Route");
+        const lineSelector = `g.lines > line:not(${routePathCodes.map(code => "#" + code).join(",")})`;
+        const lines = svgRef.current?.querySelectorAll(lineSelector);
+        lines?.forEach(line => line.setAttribute("stroke", "#eeeeee"));
+
+        const stationsGroup = svgRef.current?.querySelector("g.stations");
+        const stationSelector = `g:not(${routeStationCodes.map(code => "#" + code).join(",")})`;
+        const stations = stationsGroup?.querySelectorAll(stationSelector);
+        stations?.forEach(station => (station.firstChild as Element).setAttribute("stroke", "#eeeeee"));
+
+        const transferStationsGroup = svgRef.current?.querySelector("g.transferStations");
+        const transferStations = transferStationsGroup?.querySelectorAll(stationSelector);
+        transferStations?.forEach(station => (station.firstChild as Element).setAttribute("stroke", "#eeeeee"));
+
+        const interchangesGroup = svgRef.current?.querySelector("g.interchanges");
+        const interchanges = interchangesGroup?.querySelectorAll(stationSelector);
+        interchanges?.forEach(station => (station.firstChild as Element).setAttribute("stroke", "#eeeeee"));
+    }, [])
 
     return <>
         <div className="flex flex-col h-screen">
@@ -125,7 +132,7 @@ export default function Map() {
                     <p className="text-xl">Map</p>
                 </div>
             </div>
-            <div className="flex flex-1" ref={ref}>
+            <div className="flex flex-1 justify-center items-center" style={{ maxHeight: "90vh" }} ref={ref}>
                 <MapSvg x={x} y={y} scale={scale} ref={svgRef} />
             </div>
         </div>

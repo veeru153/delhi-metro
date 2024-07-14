@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef } from "react"
 
 export default forwardRef(({ x, y, scale }: { x: number, y: number, scale: number }, ref: ForwardedRef<SVGSVGElement>) => {
-    return <svg ref={ref} width="491" height="758" viewBox="0 0 491 758" style={{ width: "100%", height: "100%" }}>
+    return <svg ref={ref} width="491" height="758" viewBox="0 0 491 758" style={{ width: "100%", height: "100%", maxWidth: "100vw" }}>
         <g height="758" width="491" transform={`translate(${x}, ${y}) scale(${scale})`}>
             <g className="river" style={{ transform: "scale(0.3) translate(230px)" }}><path d="M 1776 43 q 750 723 1334 1462 a 481.9 481.9 90 0 1 46 257 C 3168 1927 3202 2063 3271 2208 Q 3354 2326 3464 2422 L 3747 2691 Q 3816 2767 4607 3541" stroke="#c1e8f7" fill="none" strokeWidth="60px"></path><text transform="translate(2020.05 293.28) rotate(45)">Yamuna</text></g>
             <g className="lines">
