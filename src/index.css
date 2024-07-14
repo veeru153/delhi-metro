@@ -674,6 +674,10 @@ video {
   cursor: pointer;
 }
 
+.resize {
+  resize: both;
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -762,6 +766,10 @@ video {
 
 .gap-y-4 {
   row-gap: 1rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .truncate {
