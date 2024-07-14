@@ -31,7 +31,7 @@ export default function JourneyPlanner() {
                 />
             </div>
             <button
-                className="text-xl bg-red-700 text-gray-200 w-full py-3 rounded-lg cursor-pointer disabled:text-gray-400 disabled:bg-gray-200 disabled:cursor-not-allowed"
+                className="text-xl bg-red-700 text-gray-50 w-full py-3 rounded-lg cursor-pointer disabled:text-gray-400 disabled:bg-gray-200 disabled:cursor-not-allowed"
                 disabled={from == null || to == null || filter == null}
                 onClick={() => (from != null && to != null && navigate("/route"))}
             >
