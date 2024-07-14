@@ -8,6 +8,8 @@ import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDo
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import SwapHorizOutlinedIcon from '@mui/icons-material/SwapHorizOutlined';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
+import DirectionsSubwayOutlinedIcon from '@mui/icons-material/DirectionsSubwayOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { useAtom, useAtomValue } from "jotai";
 import { filterAtom, fromStationAtom, toStationAtom } from "../common/atoms";
@@ -39,12 +41,18 @@ export default function RouteInfo() {
         refetch();
     }, [from, to, filter])
 
-    console.log(data);
-
-
-    if ((!isLoading && data == null) || isError) {
-        return <>Error: 500</>
+    function getBottomScreen() {
+        if (from?.station_code == to?.station_code) return <ErrorState message="Journey Source and Destination cannot be the same" />
+        if (isLoading) return <LoadingState />
+        if (data == null || isError) return <ErrorState />
+        return <JourneyDetails data={data} />
     }
+
+    const mapPaths: string[] = [];
+    if (data != null) {
+        data.route.forEach(route => route["map-path"].forEach(path => mapPaths.push(path)));
+    }
+    const mapUrl = `/map${mapPaths.length != 0 ? `?route=${mapPaths.join(",")}` : ""}`
 
     return <>
         <div className="flex flex-col h-screen gap-y-3">
@@ -60,7 +68,7 @@ export default function RouteInfo() {
                 </div>
                 <div
                     className="flex flex-row justify-center items-center p-4 cursor-pointer"
-                    onClick={() => navigate("/map")}
+                    onClick={() => navigate(mapUrl)}
                 >
                     <MapOutlinedIcon className="!w-7 !h-7 text-gray-800" />
                 </div>
@@ -86,7 +94,7 @@ export default function RouteInfo() {
                     </div>
                 </div>
             </div>
-            {data != null && <JourneyDetails data={data} />}
+            {getBottomScreen()}
         </div>
     </>;
 }
@@ -136,10 +144,10 @@ function JourneySegment({ segment, nextSegment }: JourneySegmentProps) {
         </div>
         {
             nextSegment != null
-                ? <div className="flex flex-row justify-center items-center gap-x-4 text-lg font-semibold">
-                    <p style={{ color: lineColor }}>{segment.line}</p>
-                    <SwapHorizOutlinedIcon />
-                    <p style={{ color: nextLineColor }}>{nextSegment.line}</p>
+                ? <div className="flex flex-row justify-center items-center gap-x-4 text-lg font-bold">
+                    <div className="flex-1 text-right" style={{ color: lineColor }}>{segment.line}</div>
+                    <SwapHorizOutlinedIcon className="text-gray-900" />
+                    <div className="flex-1 text-left" style={{ color: nextLineColor }}>{nextSegment.line}</div>
                 </div>
                 : null
         }
@@ -203,6 +211,24 @@ function InvalidParameters() {
                 <ErrorOutlineOutlinedIcon className="!w-44 !h-44 text-gray-400" />
                 <p className="text-3xl text-gray-400">Missing or Invalid Route Data</p>
             </div>
+        </div>
+    </>
+}
+
+function LoadingState() {
+    return <>
+        <div className="flex flex-col flex-1 justify-center items-center px-4 gap-y-4">
+            <DirectionsSubwayOutlinedIcon className="!w-44 !h-44 text-gray-400" />
+            <p className="text-3xl text-gray-400">Finding Route</p>
+        </div>
+    </>
+}
+
+function ErrorState({ message }: { message?: string }) {
+    return <>
+        <div className="flex flex-col flex-1 justify-center items-center px-4 gap-y-4">
+            <ReportProblemOutlinedIcon className="!w-44 !h-44 text-gray-400" />
+            <p className="text-3xl text-gray-400">{message ?? "Error Fetching Data"}</p>
         </div>
     </>
 }
