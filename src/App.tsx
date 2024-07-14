@@ -24,8 +24,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <StationPicker stationAtom={searchingStation} />
-        <div className="text-center">
+        <div className="text-center max-w-[640px] mx-auto">
+          <StationPicker stationAtom={searchingStation} />
           <Routes>
             <Route path="/route" element={<RouteInfo />} />
             <Route path="/map" element={<Map />} />

@@ -17,7 +17,7 @@ import StationPickerInput from "../components/StationPickerInput";
 import FilterButton from "../components/FilterButton";
 import { RouteDetails, RouteSegment, RouteSegmentStation } from "../common/types/StationRoute";
 import getColorFromLineNo from "../common/util/getColorFromLine";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function RouteInfo() {
@@ -60,7 +60,7 @@ export default function RouteInfo() {
                 <div className="flex flex-row flex-1 items-center p-4 gap-2">
                     <div
                         className="cursor-pointer"
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate(-1)}
                     >
                         <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
                     </div>
@@ -194,18 +194,13 @@ function IntermediateStations({ stations, color }: { stations: RouteSegmentStati
 }
 
 function InvalidParameters() {
-    const navigate = useNavigate();
-
     return <>
         <div className="flex flex-col h-screen">
             <div className="flex flex-row w-full">
-                <div
-                    className="flex flex-row items-center p-4 gap-2 cursor-pointer"
-                    onClick={() => navigate("/")}
-                >
+                <Link className="flex flex-row items-center p-4 gap-2 cursor-pointer" to="/">
                     <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
                     <p className="text-xl">Back</p>
-                </div>
+                </Link>
             </div>
             <div className="flex flex-col flex-1 justify-center items-center px-4 gap-8">
                 <ErrorOutlineOutlinedIcon className="!w-44 !h-44 text-gray-400" />

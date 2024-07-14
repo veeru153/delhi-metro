@@ -43,30 +43,32 @@ export default function StationPicker({ stationAtom }: StationPickerProps) {
         return <StationList list={data ?? []} setStation={setStation} resetPicker={resetPicker} />
     }
 
-    const activeClasses = "translate-x-0";
-    const inactiveClasses = "translate-x-full";
+    const activeClasses = "translate-x-0 sm:flex";
+    const inactiveClasses = "translate-x-full sm:translate-x-0 sm:hidden";
     const classes = [
-        "fixed top-0 left-0 flex flex-col h-screen pt-4 px-4 w-full mx-auto transition-transform duration-100 ease-out bg-white",
+        "fixed top-0 flex flex-col h-screen pt-4 px-4 w-full max-w-[640px] mx-auto transition-transform duration-100 ease-out bg-white",
         pickerVisible ? activeClasses : inactiveClasses
     ].join(" ")
 
     return <>
-        <div className={classes}>
-            <div className="flex flex-row justify-center items-center w-full mx-auto gap-x-2">
-                <div className="flex flex-row justify-center items-center cursor-pointer pr-2">
-                    <ArrowBackIosNewOutlinedIcon className="text-gray-800" onClick={resetPicker} />
+        <div className="flex flex-row sm:w-full">
+            <div className={classes}>
+                <div className="flex flex-row justify-center items-center w-full mx-auto gap-x-2">
+                    <div className="flex flex-row justify-center items-center cursor-pointer pr-2">
+                        <ArrowBackIosNewOutlinedIcon className="text-gray-800" onClick={resetPicker} />
+                    </div>
+                    <div className="flex flex-row bg-gray-200 w-full px-3 py-3 gap-x-3 rounded-xl">
+                        <SearchOutlinedIcon className="text-gray-700" />
+                        <input
+                            ref={searchBarRef}
+                            placeholder="Search"
+                            className="text-gray-800 bg-transparent w-full focus:outline-none"
+                            onInput={(e) => setKeyword((e.target as HTMLInputElement).value)}
+                        />
+                    </div>
                 </div>
-                <div className="flex flex-row bg-gray-200 w-full px-3 py-3 gap-x-3 rounded-xl">
-                    <SearchOutlinedIcon className="text-gray-700" />
-                    <input
-                        ref={searchBarRef}
-                        placeholder="Search"
-                        className="text-gray-800 bg-transparent w-full focus:outline-none"
-                        onInput={(e) => setKeyword((e.target as HTMLInputElement).value)}
-                    />
-                </div>
+                {getBottomScreen()}
             </div>
-            {getBottomScreen()}
         </div>
     </>
 }
@@ -106,7 +108,7 @@ function StationList({ list, setStation, resetPicker }: StationList) {
 function StationListItem({ station, setStation, resetPicker }: StationListItem) {
     return <>
         <div
-            className="flex flex-row bg-gray-200 rounded-xl py-3 px-4 text-lg text-left"
+            className="flex flex-row bg-gray-200 rounded-xl py-3 px-4 text-lg text-left cursor-pointer"
             onClick={() => {
                 setStation(station);
                 resetPicker();

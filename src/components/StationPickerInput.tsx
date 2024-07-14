@@ -12,7 +12,7 @@ export default function StationPickerInput({ label, hideIcon = false, stationAto
 
     return <>
         <div
-            className="flex flex-row w-full bg-gray-200 px-3 py-3 gap-x-3 rounded-xl cursor-pointer truncate"
+            className={`flex flex-row w-full bg-gray-200 px-3 py-3 gap-x-3 rounded-xl cursor-pointer truncate ${hideIcon ? "justify-center" : ""}`}
             onClick={() => {
                 setSearchingStationAtom(stationAtom);
                 setPickerVisible(true);
