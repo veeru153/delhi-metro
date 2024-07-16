@@ -158,9 +158,9 @@ export default function Map() {
             </div>
             <div className="relative flex flex-1 justify-center items-center overflow-hidden" ref={ref}>
                 <MapSvg x={ORIGINAL_X} y={ORIGINAL_Y} scale={ORIGINAL_SCALE} ref={svgRef} />
-                <div className="flex flex-col gap-y-5 absolute bottom-[24px] right-[24px]">
-                    <AddOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(-0.1)} />
-                    <RemoveOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(0.1)} />
+                <div className="flex flex-col gap-y-5 absolute top-[24px] right-[24px]">
+                    <AddOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(-0.25)} />
+                    <RemoveOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(0.25)} />
                 </div>
             </div>
         </div>
