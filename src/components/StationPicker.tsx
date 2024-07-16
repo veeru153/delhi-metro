@@ -38,6 +38,7 @@ export default function StationPicker({ stationAtom }: StationPickerProps) {
     }
 
     function getBottomScreen() {
+        if (!navigator.onLine) return <ErrorScreen message="You are Offline" />
         if (keyword.length == 0) return <StartTypingToSearch />;
         if (isError) return <ErrorScreen />;
         return <StationList list={data ?? []} setStation={setStation} resetPicker={resetPicker} />
@@ -82,11 +83,11 @@ function StartTypingToSearch() {
     </>
 }
 
-function ErrorScreen() {
+function ErrorScreen({ message }: { message?: string }) {
     return <>
         <div className="flex flex-col flex-1 justify-center items-center gap-2">
             <ErrorOutlineOutlinedIcon className="!w-44 !h-44 text-gray-400" />
-            <p className="text-3xl text-gray-400">Error Fetching Stations</p>
+            <p className="text-3xl text-gray-400">{message ?? "Error Fetching Data"}</p>
         </div>
     </>
 }

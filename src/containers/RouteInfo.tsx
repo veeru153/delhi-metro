@@ -42,6 +42,7 @@ export default function RouteInfo() {
     }, [from, to, filter])
 
     function getBottomScreen() {
+        if (!navigator.onLine) return <ErrorState message="You are offline" />
         if (from?.station_code == to?.station_code) return <ErrorState message="Journey Source and Destination cannot be the same" />
         if (isLoading) return <LoadingState />
         if (data == null || isError) return <ErrorState />
@@ -56,7 +57,7 @@ export default function RouteInfo() {
 
     return <>
         <div className="flex flex-col h-screen gap-y-3">
-            <div className="flex flex-row w-full">
+            <div className="sticky top-0 flex flex-row w-full bg-white">
                 <div className="flex flex-row flex-1 items-center p-4 gap-2">
                     <div
                         className="cursor-pointer"
