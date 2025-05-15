@@ -56,46 +56,48 @@ export default function RouteInfo() {
     const mapUrl = `/map${mapPaths.length != 0 ? `?route=${mapPaths.join(",")}` : ""}`
 
     return <>
-        <div className="flex flex-col h-screen gap-y-3">
-            <div className="sticky top-0 flex flex-row w-full bg-white">
-                <div className="flex flex-row flex-1 items-center p-4 gap-2">
+        <div className="text-center max-w-[640px] mx-auto">
+            <div className="flex flex-col h-screen gap-y-3">
+                <div className="sticky top-0 flex flex-row w-full bg-white">
+                    <div className="flex flex-row flex-1 items-center p-4 gap-2">
+                        <div
+                            className="cursor-pointer"
+                            onClick={() => navigate(-1)}
+                        >
+                            <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
+                        </div>
+                        <p className="text-xl">Journey</p>
+                    </div>
                     <div
-                        className="cursor-pointer"
-                        onClick={() => navigate(-1)}
+                        className="flex flex-row justify-center items-center p-4 cursor-pointer"
+                        onClick={() => navigate(mapUrl)}
                     >
-                        <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
+                        <MapOutlinedIcon className="!w-7 !h-7 text-gray-800" />
                     </div>
-                    <p className="text-xl">Journey</p>
                 </div>
-                <div
-                    className="flex flex-row justify-center items-center p-4 cursor-pointer"
-                    onClick={() => navigate(mapUrl)}
-                >
-                    <MapOutlinedIcon className="!w-7 !h-7 text-gray-800" />
+                <div className="flex flex-col justify-center items-center">
+                    <div className="flex flex-col w-full gap-y-3 px-3">
+                        <div className="flex flex-row w-full items-center gap-x-1">
+                            <StationPickerInput hideIcon label="From" stationAtom={fromStationAtom} />
+                            <KeyboardDoubleArrowRightOutlinedIcon />
+                            <StationPickerInput hideIcon label="To" stationAtom={toStationAtom} />
+                        </div>
+                        <div className="flex flex-row w-full gap-2">
+                            <FilterButton
+                                label="Shortest Route"
+                                isActive={filter == SHORTEST_ROUTE}
+                                setActive={() => setFilter(SHORTEST_ROUTE)}
+                            />
+                            <FilterButton
+                                label="Minimum Interchange"
+                                isActive={filter == MINIMUM_INTERCHANGE}
+                                setActive={() => setFilter(MINIMUM_INTERCHANGE)}
+                            />
+                        </div>
+                    </div>
                 </div>
+                {getBottomScreen()}
             </div>
-            <div className="flex flex-col justify-center items-center">
-                <div className="flex flex-col w-full gap-y-3 px-3">
-                    <div className="flex flex-row w-full items-center gap-x-1">
-                        <StationPickerInput hideIcon label="From" stationAtom={fromStationAtom} />
-                        <KeyboardDoubleArrowRightOutlinedIcon />
-                        <StationPickerInput hideIcon label="To" stationAtom={toStationAtom} />
-                    </div>
-                    <div className="flex flex-row w-full gap-2">
-                        <FilterButton
-                            label="Shortest Route"
-                            isActive={filter == SHORTEST_ROUTE}
-                            setActive={() => setFilter(SHORTEST_ROUTE)}
-                        />
-                        <FilterButton
-                            label="Minimum Interchange"
-                            isActive={filter == MINIMUM_INTERCHANGE}
-                            setActive={() => setFilter(MINIMUM_INTERCHANGE)}
-                        />
-                    </div>
-                </div>
-            </div>
-            {getBottomScreen()}
         </div>
     </>;
 }

@@ -143,23 +143,25 @@ export default function Map({ hideTopBar = false }: { hideTopBar?: boolean }) {
     }, [])
 
     return <>
-        <div className="flex flex-col h-screen">
-            {!hideTopBar ? <div className="flex flex-row w-full bg-white">
-                <div className="flex flex-row flex-1 items-center p-4 gap-2">
-                    <div
-                        className="cursor-pointer"
-                        onClick={() => navigate(-1)}
-                    >
-                        <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
+        <div className="text-center max-w-[640px] mx-auto">
+            <div className="flex flex-col h-screen">
+                {!hideTopBar ? <div className="flex flex-row w-full bg-white">
+                    <div className="flex flex-row flex-1 items-center p-4 gap-2">
+                        <div
+                            className="cursor-pointer"
+                            onClick={() => navigate(-1)}
+                        >
+                            <ArrowBackIosNewOutlinedIcon className="!w-6 !h-6 text-gray-800" />
+                        </div>
+                        <p className="text-xl">Map</p>
                     </div>
-                    <p className="text-xl">Map</p>
-                </div>
-            </div> : null}
-            <div className="relative flex flex-1 justify-center items-center overflow-hidden" ref={ref}>
-                <MapSvg x={ORIGINAL_X} y={ORIGINAL_Y} scale={ORIGINAL_SCALE} ref={svgRef} />
-                <div className="flex flex-col gap-y-5 absolute top-[24px] right-[24px]">
-                    <AddOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(-0.25)} />
-                    <RemoveOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(0.25)} />
+                </div> : null}
+                <div className="relative flex flex-1 justify-center items-center overflow-hidden" ref={ref}>
+                    <MapSvg x={ORIGINAL_X} y={ORIGINAL_Y} scale={ORIGINAL_SCALE} ref={svgRef} />
+                    <div className="flex flex-col gap-y-5 absolute top-[24px] right-[24px]">
+                        <AddOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(-0.25)} />
+                        <RemoveOutlinedIcon className="!w-8 !h-8 rounded-2xl bg-white text-gray-800 ring-4 active:bg-slate-200" onClick={() => zoom(0.25)} />
+                    </div>
                 </div>
             </div>
         </div>

@@ -52,23 +52,25 @@ export default function StationPicker({ stationAtom }: StationPickerProps) {
     ].join(" ")
 
     return <>
-        <div className="flex flex-row sm:w-full">
-            <div className={classes}>
-                <div className="flex flex-row justify-center items-center w-full mx-auto gap-x-2">
-                    <div className="flex flex-row justify-center items-center cursor-pointer pr-2">
-                        <ArrowBackIosNewOutlinedIcon className="text-gray-800" onClick={resetPicker} />
+        <div className="text-center max-w-[640px] mx-auto">
+            <div className="flex flex-row sm:w-full">
+                <div className={classes}>
+                    <div className="flex flex-row justify-center items-center w-full mx-auto gap-x-2">
+                        <div className="flex flex-row justify-center items-center cursor-pointer pr-2">
+                            <ArrowBackIosNewOutlinedIcon className="text-gray-800" onClick={resetPicker} />
+                        </div>
+                        <div className="flex flex-row bg-gray-200 w-full px-3 py-3 gap-x-3 rounded-xl">
+                            <SearchOutlinedIcon className="text-gray-700" />
+                            <input
+                                ref={searchBarRef}
+                                placeholder="Search"
+                                className="text-gray-800 bg-transparent w-full focus:outline-none"
+                                onInput={(e) => setKeyword((e.target as HTMLInputElement).value)}
+                            />
+                        </div>
                     </div>
-                    <div className="flex flex-row bg-gray-200 w-full px-3 py-3 gap-x-3 rounded-xl">
-                        <SearchOutlinedIcon className="text-gray-700" />
-                        <input
-                            ref={searchBarRef}
-                            placeholder="Search"
-                            className="text-gray-800 bg-transparent w-full focus:outline-none"
-                            onInput={(e) => setKeyword((e.target as HTMLInputElement).value)}
-                        />
-                    </div>
+                    {getBottomScreen()}
                 </div>
-                {getBottomScreen()}
             </div>
         </div>
     </>
