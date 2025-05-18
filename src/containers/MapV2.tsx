@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 // @ts-ignore
 import MapSvgImg from "../assets/map.svg?react";
-import MapSvg from "../components/MapSvg";
+import MapSvg2 from "../components/MapSvg2";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const ORIGINAL_X = -366.2540008544922;
@@ -64,7 +64,7 @@ export default function Map() {
     return <>
         <div className="flex flex-col h-dvh">
             <div className="relative flex flex-1 justify-center items-center overflow-hidden" ref={ref}>
-                <MapSvg x={ORIGINAL_X} y={ORIGINAL_Y} scale={ORIGINAL_SCALE} ref={svgRef} />
+                <MapSvg2 x={ORIGINAL_X} y={ORIGINAL_Y} scale={ORIGINAL_SCALE} ref={svgRef} />
             </div>
         </div>
     </>
