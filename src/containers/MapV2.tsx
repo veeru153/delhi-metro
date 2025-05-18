@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 // @ts-ignore
 import MapSvgImg from "../assets/map.svg?react";
 import MapSvg2 from "../components/MapSvg2";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 const ORIGINAL_X = -366.2540008544922;
 const ORIGINAL_Y = -11.287689208984375;
@@ -12,14 +12,11 @@ export default function Map() {
     const [searchParams] = useSearchParams();
     const svgRef = useRef<SVGSVGElement>(null);
     const ref = useRef<HTMLDivElement>(null);
-    const [viewBox, setViewBox] = useState({ x: 0, y: 0, w: 0, h: 0 });
 
     useEffect(() => {
         if (svgRef && svgRef.current) {
             const bbox = svgRef.current.getBBox();
-            setViewBox({ x: bbox.x, y: bbox.y, w: bbox.width, h: bbox.height });
             svgRef.current.setAttribute("viewBox", `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
-            // svgRef.current.setAttribute("preserveAspectRatio", "xMidYMid meet");
             svgRef.current.setAttribute("style", "width: 100%; height: 100%;");
         }
     }, [svgRef])
